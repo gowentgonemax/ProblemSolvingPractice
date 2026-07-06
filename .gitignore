@@ -1,0 +1,40 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Build / packaging
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Temp files
+*~
+# Node
+node_modules/
+
+# Test output
+test-output/
+
+# Others
+.idea_modules/
+dependency-reduced-pom.xml
+release.properties
+
