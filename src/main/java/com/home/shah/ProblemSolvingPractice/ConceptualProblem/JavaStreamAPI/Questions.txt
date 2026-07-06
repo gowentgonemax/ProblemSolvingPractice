@@ -1,0 +1,31 @@
+Filter out even numbers from a list
+• 2 Find the maximum number in a list
+0 3
+Sort a list in reverse order
+• 4 Count strings with a specific prefix
+• 5 Find the first non-repeated character in a string
+06
+Convert a list of strings to uppercase
+7 Calculate the sum of numbers
+8
+Check if any string matches a condition
+9
+Find duplicates in a list
+10
+Group strings by length
+Flatten a nested list
+Concatenate all strings in a list Find the longest string in a list
+Calculate the average of numbers
+Convert a list into a map
+Find the 3rd largest number in a list
+Detect palindromes in a list
+Reverse each word in a string list
+Filter a map with values greater than 10
+Find common elements in two lists
+Sum of squares of even numbers
+2
+3
+Partition strings: Palindrome vs Non-Palindrome
+Group strings by first character
+Calculate product of numbers in a list
+Convert a map into a list of keys

@@ -5,12 +5,11 @@ import java.util.List;
 
 public class ArrayProblemSolving {
     public int fullJustify() {
-        String[] words = {" must" ," be" ," acknowledgment" ," shall" ," be" };
+        String[] words = {"This", "is", "an", "example", "of", "text", "justification."};
+        int maxWidth = 16;
         List<String> myList = Arrays.asList(words);
-        int n = myList.size();
-        System.out.println(n);
-        int maxWidth=16;
-        return 2;
+
+        return 0;
     }
 
 }

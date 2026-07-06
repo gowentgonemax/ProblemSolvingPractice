@@ -34,22 +34,22 @@ public class JavaStreamProblems {
     }
 //Filter even numbers from a list of integers.
     public static void filterEvenNumbers(List<Integer> givenIntegers){
-        List<Integer> list = givenIntegers.stream().filter(e -> e % 2 == 0).toList();
-        System.out.println(list);
+        List<Integer> list = givenIntegers.stream().filter(e -> e % 2 == 0).skip(0).toList();
+        System.out.println("Filter Even Numbers   "+list);
     }
     //   Count how many strings in a list start with the letter "A".
     public static void CountString(List<String> givenString){
         long a1 = givenString.stream().filter(e->e.toUpperCase().startsWith("A")).count();
-        System.out.println(a1);
+        System.out.println("CountString   "+a1);
     }
     //    Sort a list of integers in descending order using streams.
     public static void SortingInteger(List<Integer> givenIntegers) {
         List<Integer> list = givenIntegers.stream().sorted(Comparator.reverseOrder()).toList();
-        System.out.println(list);
+        System.out.println("Sorting Integer    "+list);
     }
     public static void distinct(List<Integer> givenIntegers) {
         List<Integer> distinct = givenIntegers.stream().distinct().toList();
-        System.out.println(distinct);
+        System.out.println("Distinct   "+distinct);
     }
 
 

@@ -14,7 +14,7 @@ public class FunctionalInterfaceDemo {
         System.out.println(mySum.test(20));
         Function<Integer,Integer>  myFun =  x-> x*3;
         System.out.println(myFun.apply(3));
-        Consumer<Integer> myCons = x-> System.out.println(x);
+        Consumer<Integer> myCons = System.out::println;
         myCons.accept(4);
         Supplier<String> mySup  =()-> "Dude";
         System.out.println(mySup.get());

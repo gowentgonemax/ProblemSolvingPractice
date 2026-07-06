@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class HappyNumber {
     public static void main(String[] args) {
-        System.out.println(isHappyHour(82));
+        System.out.println(isHappyHour(19));
 //        testSpace();
 
     }
@@ -16,13 +16,9 @@ public class HappyNumber {
         int sum = 0;
         Set<Integer> seen = new HashSet<>();
         while (num != 0) {
-            int digit = num%10;
-            sum += digit;
-//            if (sum != 1 && seen.contains(sum)) {
-//                seen.add(sum);
-//            }
-//            isHappy = !(arr.contains(sum));
-            num = num / 10;
+            int digit = num % 10;
+            sum  = sum + digit*digit;
+
         }
 
         return isHappy;

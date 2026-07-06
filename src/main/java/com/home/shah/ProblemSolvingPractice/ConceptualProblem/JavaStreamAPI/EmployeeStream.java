@@ -21,4 +21,12 @@ public class EmployeeStream {
         Map<String, List<Employee>> collect = givenEmployee.stream().collect(Collectors.groupingBy(Employee::getDepartment));
         System.out.println(collect);
     }
+    public static void  groupByDepartment(List<Employee> employee){
+        Map<String, List<Employee>> collect = employee.stream().collect(Collectors.groupingBy(Employee::getDepartment));
+        System.out.println(collect);
+
+
+
+    }
+
 }
