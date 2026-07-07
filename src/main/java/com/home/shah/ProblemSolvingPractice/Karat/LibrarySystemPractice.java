@@ -99,160 +99,121 @@ public class LibrarySystemPractice {
         int nextRecordId = 1000;
 
         // 1. Add a new book to the library
+        // TODO: Store the book in the 'books' map using bookId as key.
+        //       Ensure the book is accessible for future borrow operations.
         void addBook(Book book) {
-            books.put(book.bookId, book);
+            // TODO: implement
         }
 
         // 2. Add a new member to the library
+        // TODO: Store the member in the 'members' map using memberId as key.
+        //       Ensure the member can be retrieved for borrow/return operations.
         void addMember(Member member) {
-            members.put(member.memberId, member);
+            // TODO: implement
         }
 
         // 3. Borrow a book (14-day loan period)
+        // TODO: Validate that memberId and bookId exist.
+        //       Check if the book has available copies.
+        //       Create a new BorrowRecord with borrowDate=today, dueDate=today+14 days.
+        //       Decrement availableCopies for the book.
+        //       Return true if successful, false if member/book not found or no copies available.
         boolean borrowBook(int memberId, int bookId) {
-            if (!members.containsKey(memberId) || !books.containsKey(bookId)) {
-                return false;
-            }
-            Book book = books.get(bookId);
-            if (book.availableCopies <= 0) {
-                return false;
-            }
-            book.availableCopies--;
-            LocalDate borrowDate = LocalDate.now();
-            LocalDate dueDate = borrowDate.plusDays(14);
-            BorrowRecord record = new BorrowRecord(nextRecordId++, memberId, bookId, borrowDate, dueDate);
-            borrowRecords.add(record);
-            return true;
+            // TODO: implement
+            return false;
         }
 
         // 4. Return a book
+        // TODO: Find the BorrowRecord by recordId (ensure returnDate is null/not yet returned).
+        //       Set returnDate to today.
+        //       Update status: RETURNED if returnDate <= dueDate, OVERDUE if after.
+        //       Increment availableCopies for the book.
+        //       Return true if successful, false if record not found or already returned.
         boolean returnBook(int recordId) {
-            for (BorrowRecord record : borrowRecords) {
-                if (record.recordId == recordId && record.returnDate == null) {
-                    record.returnDate = LocalDate.now();
-                    record.status = record.returnDate.isAfter(record.dueDate)
-                        ? BorrowStatus.OVERDUE
-                        : BorrowStatus.RETURNED;
-                    Book book = books.get(record.bookId);
-                    book.availableCopies++;
-                    return true;
-                }
-            }
+            // TODO: implement
             return false;
         }
 
         // 5. Get all available books
+        // TODO: Filter books where availableCopies > 0.
+        //       Format each as: "title by author (n available)".
+        //       Sort results alphabetically by title.
+        //       Return as a List<String>.
         List<String> getAvailableBooks() {
-            return books.values().stream()
-                    .filter(b -> b.availableCopies > 0)
-                    .map(b -> b.title + " by " + b.author + " (" + b.availableCopies + " available)")
-                    .sorted()
-                    .collect(Collectors.toList());
+            // TODO: implement
+            return new ArrayList<>();
         }
 
         // 6. Get borrow history for a specific member
+        // TODO: Filter borrowRecords by memberId.
+        //       Return all records (both returned and currently borrowed).
+        //       Order by borrowDate (optional, but may be helpful).
         List<BorrowRecord> getMemberBorrowHistory(int memberId) {
-            return borrowRecords.stream()
-                    .filter(r -> r.memberId == memberId)
-                    .collect(Collectors.toList());
+            // TODO: implement
+            return new ArrayList<>();
         }
 
         // 7. Get currently overdue items (dueDate < today and not returned)
+        // TODO: Filter borrowRecords where returnDate is null and dueDate < today.
+        //       For each, create a Map with: "memberName", "bookTitle", "daysOverdue".
+        //       Sort by daysOverdue in descending order (most overdue first).
+        //       Return as List<Map<String, Object>>.
         List<Map<String, Object>> getOverdueBooks() {
-            LocalDate today = LocalDate.now();
-            return borrowRecords.stream()
-                    .filter(r -> r.returnDate == null && r.dueDate.isBefore(today))
-                    .map(r -> {
-                        Map<String, Object> item = new HashMap<>();
-                        item.put("memberName", members.get(r.memberId).name);
-                        item.put("bookTitle", books.get(r.bookId).title);
-                        item.put("daysOverdue", ChronoUnit.DAYS.between(r.dueDate, today));
-                        return item;
-                    })
-                    .sorted(Comparator.comparingLong((Map<String, Object> m) -> (Long) m.get("daysOverdue")).reversed())
-                    .collect(Collectors.toList());
+            // TODO: implement
+            return new ArrayList<>();
         }
 
         // 8. Get top borrowers (sorted by number of books borrowed)
+        // TODO: Group borrowRecords by memberId and count occurrences.
+        //       Sort by count in descending order.
+        //       Format each as: "memberName (n borrows)".
+        //       Return as List<String>.
         List<String> getTopBorrowers() {
-            return borrowRecords.stream()
-                    .collect(Collectors.groupingBy(r -> r.memberId, Collectors.counting()))
-                    .entrySet().stream()
-                    .sorted((a, b) -> Long.compare(b.getValue(), a.getValue()))
-                    .map(e -> members.get(e.getKey()).name + " (" + e.getValue() + " borrows)")
-                    .collect(Collectors.toList());
+            // TODO: implement
+            return new ArrayList<>();
         }
 
         // 9. Get statistics for a specific book (times borrowed, current availability, avg loan time)
+        // TODO: Find the book by bookId. If not found, return empty map.
+        //       Count total borrow records for this book.
+        //       Calculate average loan duration in days (for returned records).
+        //       Return Map with keys: "title", "totalBorrows", "availableCopies",
+        //                             "totalCopies", "avgLoanDays" (formatted to 2 decimals).
         Map<String, Object> getBookStats(int bookId) {
-            if (!books.containsKey(bookId)) {
-                return new HashMap<>();
-            }
-            Book book = books.get(bookId);
-            List<BorrowRecord> bookRecords = borrowRecords.stream()
-                    .filter(r -> r.bookId == bookId)
-                    .collect(Collectors.toList());
-
-            long totalBorrows = bookRecords.size();
-            double avgLoanDays = bookRecords.stream()
-                    .filter(r -> r.returnDate != null)
-                    .mapToLong(r -> ChronoUnit.DAYS.between(r.borrowDate, r.returnDate))
-                    .average()
-                    .orElse(0);
-
-            Map<String, Object> stats = new HashMap<>();
-            stats.put("title", book.title);
-            stats.put("totalBorrows", totalBorrows);
-            stats.put("availableCopies", book.availableCopies);
-            stats.put("totalCopies", book.totalCopies);
-            stats.put("avgLoanDays", String.format("%.2f", avgLoanDays));
-            return stats;
+            // TODO: implement
+            return new HashMap<>();
         }
 
         // 10. Get member statistics: total books borrowed, currently checked out, overdue count
+        // TODO: Find the member by memberId. If not found, return empty map.
+        //       Count total borrow records for this member.
+        //       Count records where returnDate is null (currently checked out).
+        //       Count records where returnDate is null AND dueDate < today (overdue).
+        //       Return Map with keys: "memberName", "memberId", "totalBorrowed",
+        //                             "currentlyCheckedOut", "overdueCount".
         Map<String, Object> getMemberStats(int memberId) {
-            if (!members.containsKey(memberId)) {
-                return new HashMap<>();
-            }
-            Member member = members.get(memberId);
-            List<BorrowRecord> memberRecords = borrowRecords.stream()
-                    .filter(r -> r.memberId == memberId)
-                    .collect(Collectors.toList());
-
-            long totalBorrowed = memberRecords.size();
-            long currentlyCheckedOut = memberRecords.stream()
-                    .filter(r -> r.returnDate == null)
-                    .count();
-            long overdueCount = memberRecords.stream()
-                    .filter(r -> r.returnDate == null && r.dueDate.isBefore(LocalDate.now()))
-                    .count();
-
-            Map<String, Object> stats = new HashMap<>();
-            stats.put("memberName", member.name);
-            stats.put("memberId", memberId);
-            stats.put("totalBorrowed", totalBorrowed);
-            stats.put("currentlyCheckedOut", currentlyCheckedOut);
-            stats.put("overdueCount", overdueCount);
-            return stats;
+            // TODO: implement
+            return new HashMap<>();
         }
 
         // 11. Get most popular books (sorted by borrow count)
+        // TODO: Group borrowRecords by bookId and count occurrences.
+        //       Sort by count in descending order.
+        //       Format each as: "title (n times)".
+        //       Return as List<String>.
         List<String> getMostPopularBooks() {
-            return borrowRecords.stream()
-                    .collect(Collectors.groupingBy(r -> r.bookId, Collectors.counting()))
-                    .entrySet().stream()
-                    .sorted((a, b) -> Long.compare(b.getValue(), a.getValue()))
-                    .map(e -> books.get(e.getKey()).title + " (" + e.getValue() + " times)")
-                    .collect(Collectors.toList());
+            // TODO: implement
+            return new ArrayList<>();
         }
 
-        // 12. Search books by author
+        // 12. Search books by author (case-insensitive)
+        // TODO: Filter books by author (case-insensitive comparison).
+        //       Format each as: "title - n/total available".
+        //       Sort results alphabetically by title.
+        //       Return as List<String>.
         List<String> searchByAuthor(String author) {
-            return books.values().stream()
-                    .filter(b -> b.author.equalsIgnoreCase(author))
-                    .map(b -> b.title + " - " + b.availableCopies + "/" + b.totalCopies + " available")
-                    .sorted()
-                    .collect(Collectors.toList());
+            // TODO: implement
+            return new ArrayList<>();
         }
     }
 
@@ -345,5 +306,6 @@ public class LibrarySystemPractice {
         System.out.println("Try to borrow 3rd copy: " + library.borrowBook(1, 104));
     }
 }
+
 
 
